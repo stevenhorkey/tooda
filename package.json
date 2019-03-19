@@ -1,25 +1,36 @@
 {
-  "name": "todo-346",
+  "name": "todo-app",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:3001/",
   "dependencies": {
-    "react": "^16.8.4",
-    "react-dom": "^16.8.4",
-    "react-scripts": "2.1.8"
+    "axios": "^0.18.0",
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.18.3",
+    "dotenv": "^6.2.0",
+    "express": "^4.16.3",
+    "jsonwebtoken": "^8.3.0",
+    "morgan": "^1.9.1",
+    "mysql": "^2.15.0",
+    "mysql2": "^1.5.3",
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0",
+    "path": "^0.12.7",
+    "react-google-maps": "^9.4.5",
+    "react-modal": "^3.4.5",
+    "sequelize": "^4.37.10",
+    "sequelize-cli": "^4.0.0",
+    "serve-favicon": "^2.5.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": " npm build && node ./bin/www",
+    "client": "cd client && npm start",
+    "server": "nodemon ./bin/www",
+    "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
+    "install": "cd client && npm install",
+    "build": "cd client && react-scripts build"
   },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ]
+  "devDependencies": {
+    "concurrently": "^3.5.1"
+  }
 }
