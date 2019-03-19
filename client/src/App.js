@@ -1,25 +1,27 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import logo from './logo.svg';
-import './App.css';
+import './assets/scss/Index.css';
+
+import Home from './pages/Home';
 
 class App extends Component {
   render() {
     return (
         <Router>
           <div className="App">
-            <Navbar/>
+            {/* <Navbar/> */}
             <div id='content'>
               <Switch>
 
-                  <Route exact path="/signup" render={() => <Signup />} />
-                  <Route exact path="/login" render={() => <Login />} />
-                  <Route exact path="/protected" component={Test} />
-                  <Route render={() => <Home />} />
+                  {/* <Route exact path="/signup" render={() => <Signup />} /> */}
+                  {/* <Route exact path="/login" render={() => <Login />} /> */}
+                  {/* <Route exact path="/protected" component={Test} /> */}
+                  <Route render={() => <Home/>} />
 
               </Switch>
             </div>
-            <Footer/>
+            {/* <Footer/> */}
           </div>
         </Router>
     );

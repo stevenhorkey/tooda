@@ -1,0 +1,15 @@
+@import 'variables.scss';
+
+.card{
+  padding: 1rem;
+  width: 100%;
+  margin: 6px 0;
+  border-radius: 1rem;
+  -webkit-box-shadow: 0 10px 6px -6px $gray-700;
+        -moz-box-shadow: 0 10px 6px -6px $gray-700;
+            box-shadow: 0 10px 6px -6px $gray-700;
+}
+  
+.round{
+  border-radius: 1rem;
+}

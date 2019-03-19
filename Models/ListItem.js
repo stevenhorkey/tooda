@@ -1,8 +1,13 @@
 module.exports = function (sequelize, DataTypes) {
     var ListItem = sequelize.define("ListItem", {
-        item: {
+        value: {
             type: DataTypes.STRING,
             allowNull: false,
+        },
+        completed: {
+            type: DataTypes.BOOLEAN,
+            allowNull: true,
+            defaultValue: 0
         }
     });
 

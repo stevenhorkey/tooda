@@ -30,21 +30,39 @@ var generateHash = function (password) {
   return bcrypt.hashSync(password, bcrypt.genSaltSync(10), null)
 }
 
+router.get('/getListItems', function (req, res) {
+  var listItems = {
+    todoItems: [],
+    completedItems: []
+  }
 
-
-router.get('/populateProducts', function (req, res) {
-  db.Product.findAll({
+  db.ListItem.findAll({
     where: {
-
+      completed: false
     }
-  }).then(function (products, err) {
+  }).then(function (items, err) {
     if (err) {
       console.log(err);
       return (err);
     }
-    console.log(products);
-    res.json(products);
+    listItems.todoItems = items;
+    res.json(listItems);
+
   })
+
+  // db.ListItem.findAll({
+  //   where: {
+  //     completed: true
+  //   }
+  // }).then(function (items, err) {
+  //   if (err) {
+  //     console.log(err);
+  //     return (err);
+  //   }
+  //   listItems.completedItems = items;
+  // })
+
+  
 })
 
 //dashboard pages routes
