@@ -313,22 +313,23 @@ router.put('/updatePassword/:id', passport.authenticate('jwt', { session: false 
   }
 })
 
-router.delete('/deleteProduct/:id', passport.authenticate('jwt', { session: false }), function (req, res) {
-  let token = getToken(req.headers);
+// router.delete('/deleteListItem/:id', passport.authenticate('jwt', { session: false }), function (req, res) {
+router.delete('/deleteListItem/:id', function (req, res) {
+  // let token = getToken(req.headers);
   let id = parseInt(req.params.id);
-  if (token) {
-    db.Product.destroy({
+  // if (token) {
+    db.ListItem.destroy({
       where: { id: id }
-    }).then(function (product, err) {
+    }).then(function (item, err) {
       if (err) {
         return (err);
       } else {
-        res.json(product);
+        res.json(item);
       }
     });
-  } else {
-    return res.status(403).send({ success: false, msg: 'Unauthorized' });
-  }
+  // } else {
+  //   return res.status(403).send({ success: false, msg: 'Unauthorized' });
+  // }
 })
 
 

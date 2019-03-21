@@ -11,8 +11,7 @@ class Home extends Component {
     componentDidMount = () => {
         API.getListItems()
         .then(res => {
-            console.log(res);
-
+            console.log(res.data);
             this.setState({
                 listItems: res.data
             })
@@ -31,10 +30,8 @@ class Home extends Component {
         e.preventDefault();
         var item = this.state.itemInput;
         if(item === "") return;
-        console.log(item);
         API.postListItems({'value':item})
         .then(res => {
-            console.log(res);
             this.state.listItems.todoItems.push(res.data);
             this.setState({
                 itemInput: ""
@@ -42,6 +39,27 @@ class Home extends Component {
         }).catch(err => {
             console.log(err);
         })
+    }
+
+    deleteItem = itemId => {
+        console.log(itemId)
+        API.deleteListItem(itemId)
+        .then(res => {
+            console.log(res);
+            console.log(this.state.t)
+            this.setState({
+                listItems: {
+                    todoItems: this.state.listItems.todoItems.filter(item => item.id != itemId),
+                    completedItems: this.state.listItems.completedItems.filter(item => item.id != itemId)
+                }
+            })
+        }).catch(err => {
+            console.log(err);
+        });
+    }
+
+    completeItem = itemId => {
+        console.log(itemId)
     }
     
 
@@ -64,8 +82,16 @@ class Home extends Component {
                             <ul className="list">
                                 {todoItems.map((item,key) => {
                                     return(
-                                        <li className="todo" id={`item-`+key}>
+                                        <li className="todo" id={`item-`+item.id}>
                                         {item.value}
+                                            <span className="list-item-btns">
+                                            <span onClick={() => this.deleteItem(item.id)} className="delete-item">
+                                                <ion-icon name="trash"></ion-icon>
+                                            </span>
+                                            <span onClick={() => this.completeItem(item.id)} className="complete-item">
+                                                <ion-icon name="checkmark-circle-outline"></ion-icon>
+                                            </span>
+                                            </span>
                                         </li>
                                     )
                                 })}

@@ -26,6 +26,10 @@ body{
   -moz-appearance: none;
 }
 
+::placeholder{
+  color: white;
+}
+
 #add-item-btn{
   background: white;
   border-radius: 50%;
@@ -61,6 +65,11 @@ body{
     -webkit-box-shadow: $box-shadow;
           -moz-box-shadow: $box-shadow;
               box-shadow: $box-shadow;
+    .list-item-btns{
+      position: absolute;
+      right: 1rem;
+      font-size: 24px;
+    }
   }
 }
 
