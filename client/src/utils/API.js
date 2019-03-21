@@ -10,7 +10,7 @@ const url = 'http://localhost:3001/api/';
 export default {
 
   getListItems: () => axios.get(url + 'getListItems'),
-//   postListItems: () => axios.post(url + 'postListItems'),
+  postListItems: data => axios.post(url + 'postListItems', data),
 //   getPosts: num => axios.get(url + 'posts?&per_page=' + num),
 //   getQuotes: () => axios.get(url + 'posts?&per_page=100'),
 //   getPages: () => axios.get(url + 'pages'),

@@ -3,6 +3,11 @@ module.exports = function (sequelize, DataTypes) {
         listName: {
             type: DataTypes.TEXT,
             allowNull: false,
+        },
+        active: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: 1
         }
     });
 

@@ -126,40 +126,43 @@ router.get('/populateDashboardMarket/:id', passport.authenticate('jwt', { sessio
 });
 
 //Dashboard create product route
-router.post('/newProduct', passport.authenticate('jwt', { session: false }), function (req, res) {
-  var token = getToken(req.headers);
+// router.post('/postListItems', passport.authenticate('jwt', { session: false }), function (req, res) {
+router.post('/postListItems', function (req, res) {
+  // var token = getToken(req.headers);
 
-  console.log(req.user.dataValues.id);
-  console.log("here is the res.data:")
-  console.log(req.user.dataValues);
+  // console.log(req.user.dataValues.id);
+  // console.log("here is the res.data:")
+  // console.log(req.user.dataValues);
 
-  if (token) {
-    console.log(req.user.dataValues.id);
-    //create an object that contains all of the information we need from the request body
-    //req.user.dataValues.id is attached to the request
-    var newProduct = {
-      item: req.body.item,
-      image: req.body.image,
-      UserId: req.user.dataValues.id
-    }
+  // if (token) {
+  //   console.log(req.user.dataValues.id);
+  //   //create an object that contains all of the information we need from the request body
+  //   //req.user.dataValues.id is attached to the request
+  //   var newProduct = {
+  //     item: req.body.item,
+  //     image: req.body.image,
+  //     UserId: req.user.dataValues.id
+  //   }
 
     console.log("in if statement")
+    var item = req.body;
+    console.log(item);
 
-    db.Product.create(newProduct)
-      .then(function (products, err) {
-        console.log(products);
+    db.ListItem.create(item)
+      .then(function (items, err) {
+        console.log(items);
         console.log('success');
         console.log(err);
         if (err) {
           return (err);
         }
         else {
-          res.json(products);
+          res.json(items);
         }
       });
-  } else {
-    return res.status(403).send({ success: false, msg: 'Unauthorized.' });
-  }
+  // } else {
+  //   return res.status(403).send({ success: false, msg: 'Unauthorized.' });
+  // }
 
 })
 

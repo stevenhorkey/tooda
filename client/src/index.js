@@ -6,6 +6,7 @@ import * as serviceWorker from './serviceWorker';
 
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import '../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js'
+import './assets/scss/Index.css';
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
