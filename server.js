@@ -7,6 +7,7 @@ var PORT = process.env.PORT || "3001";
 var apiRoutes = require('./routes/api-routes');
 var app = express();
 var auth = require('./routes/auth');
+var sms = require('./utils/sms');
 require('dotenv').config()
 
 app.use(function(req, res, next) {
@@ -46,5 +47,8 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.sendStatus(err.status);
 });
+
+// taps db every minute to check if scheduled texts need to be sent.
+sms.scanTimeToSendTexts(1);
 
 module.exports = app;

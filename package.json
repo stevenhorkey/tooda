@@ -20,7 +20,8 @@
     "react-modal": "^3.4.5",
     "sequelize": "^4.37.10",
     "sequelize-cli": "^4.0.0",
-    "serve-favicon": "^2.5.0"
+    "serve-favicon": "^2.5.0",
+    "twilio": "^3.29.2"
   },
   "scripts": {
     "start": " npm build && node ./bin/www",

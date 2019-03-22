@@ -11,7 +11,9 @@ export default {
 
   getListItems: () => axios.get(url + 'getListItems'),
   postListItems: data => axios.post(url + 'postListItems', data),
+  sendSMS: data => axios.post(url + 'sendSMS', data),
   deleteListItem: id => axios.delete(url + 'deleteListItem/'+id),
+  updateListItem: (id, data) => axios.put(url + 'updateListItem/'+id, data),
 //   getPosts: num => axios.get(url + 'posts?&per_page=' + num),
 //   getQuotes: () => axios.get(url + 'posts?&per_page=100'),
 //   getPages: () => axios.get(url + 'pages'),

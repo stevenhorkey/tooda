@@ -8,6 +8,7 @@ require('../config/passport')(passport);
 var bcrypt = require('bcrypt-nodejs');
 const Op = require('sequelize').Op;
 var Sequelize = require('sequelize');
+var sms = require('../utils/sms');
 
 
 
@@ -46,21 +47,21 @@ router.get('/getListItems', function (req, res) {
       return (err);
     }
     listItems.todoItems = items;
-    res.json(listItems);
-
+    db.ListItem.findAll({
+      where: {
+        completed: true
+      }
+    }).then(function (items, err) {
+      if (err) {
+        console.log(err);
+        return (err);
+      }
+      listItems.completedItems = items;
+      res.json(listItems);
+    })
   })
 
-  // db.ListItem.findAll({
-  //   where: {
-  //     completed: true
-  //   }
-  // }).then(function (items, err) {
-  //   if (err) {
-  //     console.log(err);
-  //     return (err);
-  //   }
-  //   listItems.completedItems = items;
-  // })
+  
 
   
 })
@@ -211,27 +212,28 @@ router.post('/newMarket', passport.authenticate('jwt', { session: false }), func
 
 //Dashboard update a product route
 
-router.put('/updateProduct/:id', passport.authenticate('jwt', { session: false }), function (req, res) {
-  var token = getToken(req.headers);
+// router.put('/updateListItem/:id', passport.authenticate('jwt', { session: false }), function (req, res) {
+router.put('/updateListItem/:id', function (req, res) {
+  // var token = getToken(req.headers);
   let id = parseInt(req.params.id);
-  if (token) {
-    db.Product.update(
+  // if (token) {
+    db.ListItem.update(
       {
-        item: req.body.item,
-        image: req.body.image
+        // item: req.body.item,
+        completed: req.body.completed
       },
       { where: { id: id } })
-      .then(function (product, err) {
+      .then(function (item, err) {
         if (err) {
           return (err);
         }
         else {
-          res.json(product)
+          res.json(item)
         }
       });
-  } else {
-    return res.status(403).send({ success: false, msg: 'Unauthorized.' });
-  }
+  // } else {
+  //   return res.status(403).send({ success: false, msg: 'Unauthorized.' });
+  // }
 })
 
 //Dashboard update a market route
@@ -602,6 +604,20 @@ router.get('/findMarketByZip/:id', function (req, res) {
       res.json(markets)
     }
   })
+})
+
+router.post('/sendSMS', function(req,res){
+  console.log('triggered text message');
+  sms.twilioClient.messages.create(
+    {
+      to: '+15206129381',
+      from: '+12012989819',
+      body: req.body.value,
+    },
+    (err, message) => {
+      console.log(message.sid);
+    }
+  );
 })
 
 
