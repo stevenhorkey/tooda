@@ -42,6 +42,10 @@ body {
   font-size: 30px;
   color: #25b99a; }
 
+.list-curr-date {
+  position: absolute;
+  right: 2rem; }
+
 .list {
   list-style: none;
   width: 100%;
@@ -76,7 +80,8 @@ body {
       right: 1rem;
       font-size: 24px; }
       .list li .list-item-btns span {
-        transition: 200ms ease-in-out all; }
+        transition: 200ms ease-in-out all;
+        margin: 0 2px; }
       .list li .list-item-btns span:hover {
         color: #25b99a;
         cursor: pointer; }

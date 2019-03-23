@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import API from '../utils/API';
-import Modal from '../components/Modal'
+import Modal from '../components/Modal';
+import moment from 'moment';
 class Home extends Component {
 
     state = {
@@ -28,6 +29,7 @@ class Home extends Component {
 
     componentDidMount = () => {
         this.updateAllListItems();
+        console.log(this.state.listItems);
     }
 
     handleChange = event => {
@@ -118,11 +120,13 @@ class Home extends Component {
             <Fragment>
                 <div className="container">
                     <div className="row">
-                        <div className="col-6 bg-light box-shadow">
+                        <div className="col-12 col-md-6 mx-auto bg-light box-shadow">
                             <div className="row px-4 pt-4">
                                 <h3 className="mx-auto mb-4">Today</h3>
-                                <form className="col-12 bg-primary p-3 round">
-                                    <input type="text" name="itemInput" onChange={this.handleChange} value={this.state.itemInput} placeholder="Enter an activity.." id="addListItem"/>
+                                <br/>
+                                <small className="list-curr-date text-muted">{moment().format('MMM D, YYYY')}</small>
+                                <form className="col-12 bg-primary p-3 round box-shadow">
+                                    <input type="text" name="itemInput" onChange={this.handleChange} value={this.state.itemInput} placeholder="Make sure what you put here is actually important..." id="addListItem"/>
                                     <button onClick={this.addListItem} id="add-item-btn"><ion-icon name="add"></ion-icon></button>
                                 </form>
                             </div>
@@ -148,26 +152,30 @@ class Home extends Component {
                                     })}
                                 </ul>
                             </div>
-                            <hr/>
-                            <div className="row p-4">
-                                <ul className="list">
-                                {completedItems.map((item,key) => {
-                                    return(
-                                        <li className="completed" id={`item-`+item.id}>
-                                        {item.value}
-                                            <span className="list-item-btns">
-                                            <span onClick={() => this.deleteListItem(item.id)} className="delete-item">
-                                                <ion-icon name="trash"></ion-icon>
-                                            </span>
-                                            <span onClick={() => this.updateListItem(item.id, false)} className="complete-item">
-                                                <ion-icon name="arrow-up"></ion-icon>
-                                            </span>
-                                            </span>
-                                        </li>
-                                    )
-                                })}
-                                </ul>
-                            </div>
+                            {this.state.listItems.completedItems.length !== 0 ? 
+                                <Fragment>
+                                    <hr/>
+                                    <div className="row p-4">
+                                        <ul className="list">
+                                        {completedItems.map((item,key) => {
+                                            return(
+                                                <li className="completed" id={`item-`+item.id}>
+                                                {item.value}
+                                                    <span className="list-item-btns">
+                                                    <span onClick={() => this.deleteListItem(item.id)} className="delete-item">
+                                                        <ion-icon name="trash"></ion-icon>
+                                                    </span>
+                                                    <span onClick={() => this.updateListItem(item.id, false)} className="complete-item">
+                                                        <ion-icon name="arrow-up"></ion-icon>
+                                                    </span>
+                                                    </span>
+                                                </li>
+                                            )
+                                        })}
+                                        </ul>
+                                    </div>
+                                </Fragment>
+                            : null}
                         </div>
                     </div>
                 </div>
