@@ -607,18 +607,30 @@ router.get('/findMarketByZip/:id', function (req, res) {
 })
 
 router.post('/sendSMS', function(req,res){
-  console.log('triggered text message');
-  sms.twilioClient.messages.create(
-    {
-      to: '+15206129381',
-      from: '+12012989819',
-      body: req.body.value,
-    },
-    (err, message) => {
-      console.log(message.sid);
-    }
-  );
-})
+  let currDateTime = new Date().toISOString().slice(0,16);
+  let requestedDateTime = req.body.date.slice(0,16);
 
+  // console.log(currDateTime);
+  // console.log(requestedDateTime);
+
+  let data = {
+    'message': req.body.message,
+    'sendTime': req.body.sendTime,
+    'sendDate': req.body.sendDate
+  }
+  // send text now if request is for now
+  if (currDateTime === requestedDateTime){
+    sms.sendText(data);
+    res.json('good')
+  } 
+
+  db.Text.create(data)
+    .then(function(resp, err){
+      if(err) throw err;
+      // console.log(texts);
+      res.json(resp);
+  });
+
+})
 
 module.exports = router;

@@ -23,13 +23,15 @@ const sms = {
               body: data.message
             },
             (err, message) => {
-              console.log(message.sid);
+                if(err) return err;
+                return message
             }
         );
     },
     sendTextsByDateTime: function(){
         let date = new Date().toISOString().slice(0, 10);
         let time = Date().slice(16,21);
+        let _this = this;
         db.Text.findAll({
             where: {
                 sendDate: date,
@@ -41,8 +43,9 @@ const sms = {
                 return (err);
             }
             console.log('Attempting to send texts if they are ready...')
+            
             texts.forEach(text => {
-                this.sendText(text);
+                _this.sendText(text);
             });
         })
     }

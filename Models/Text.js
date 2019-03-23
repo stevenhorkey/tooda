@@ -15,13 +15,13 @@ module.exports = function (sequelize, DataTypes) {
 
     });
 
-    Text.associate = function (models) {
-        Text.belongsTo(models.User, {
-            foreignKey: {
-                allowNull: false
-            }
-        });
-    };
+    // Text.associate = function (models) {
+    //     Text.belongsTo(models.User, {
+    //         foreignKey: {
+    //             allowNull: false
+    //         }
+    //     });
+    // };
 
     return Text;
 };

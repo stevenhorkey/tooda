@@ -1,19 +1,17 @@
 import React, { Component, Fragment } from 'react';
 import API from '../utils/API';
-import Modal from 'react-bootstrap/Modal';
-import Button from 'react-bootstrap/Button';
-import DateTimePicker from 'react-datetime-picker';
-
+import Modal from '../components/Modal'
 class Home extends Component {
 
     state = {
         listItems: false,
         itemInput: '',
-        sms: {
-            showModal: false
-        },
-        smsShowModal: false,
+        // sms: {
+        //     showModal: false
+        // },
+        showModal: false,
         date: new Date(),
+        modalData: {}
     }
 
     updateAllListItems = () => {
@@ -55,7 +53,6 @@ class Home extends Component {
 
     changeDateTimePicker = date => this.setState({ date })
 
-
     deleteListItem = itemId => {
         console.log(itemId)
         API.deleteListItem(itemId)
@@ -89,58 +86,17 @@ class Home extends Component {
         });
     }
 
-    renderModal = () => {
-        let data = this.state.sms.data;
-        return (
-            <Modal show={this.state.sms.showModal} onHide={this.handleClose}>
-                <Modal.Header>
-                    <Modal.Title>Set A Text Reminder</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <div className="container">
-                        <div className="row">
-                        <form className="col-12">
-                            <div class="form-group">
-                                <label for="formGroupExampleInput">Message</label>
-                                <input value={data.value} type="text" class="form-control" id="formGroupExampleInput" placeholder="Example input"/>
-                            </div>
-                            <div class="form-group">
-                                <label for="formGroupExampleInput2">Date & Time</label>
-                                <DateTimePicker
-                                    onChange={this.changeDateTimePicker}
-                                    value={this.state.date}
-                                />
-                            </div>
-                        </form>
-                        </div>
-                    </div>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={this.closeModal}>
-                    Cancel
-                    </Button>
-                    <Button variant="primary" onClick={this.closeModal}>
-                    Set Reminder
-                    </Button>
-                </Modal.Footer>
-            </Modal>
-        )
-    }
-
     closeModal = () => {
         this.setState({
-            sms: {
-                showModal: false
-            }
+            showModal: false,
+            modalData: {}
         });
     }
 
-    sendTextReminder = item => {
+    triggerTextModal = item => {
         this.setState({
-            sms: {
-                showModal: true,
-                data: item
-            }
+            modalData: item,
+            showModal: true
         })
         // API.sendSMS(item);
     }
@@ -152,7 +108,6 @@ class Home extends Component {
     hoverListitem = () => {
         console.log('test')
     }
-    
 
     render() {
         if(!this.state.listItems) return null;
@@ -171,7 +126,6 @@ class Home extends Component {
                                     <button onClick={this.addListItem} id="add-item-btn"><ion-icon name="add"></ion-icon></button>
                                 </form>
                             </div>
-                            {/* <h1 className="text-center mb-3">Todo</h1> */}
                             <div className="row p-4">
                                 <ul className="list">
                                     {todoItems.map((item,key) => {
@@ -179,7 +133,7 @@ class Home extends Component {
                                             <li contentEditable onMouseOver={this.hoverListitem} onBlur={this.onBlur} className="todo" id={`item-`+item.id}>
                                             {item.value}
                                                 <span className="list-item-btns">
-                                                <span onClick={() => this.sendTextReminder(item)} className="text-item">
+                                                <span onClick={() => this.triggerTextModal(item)} className="text-item">
                                                     <ion-icon name="text"></ion-icon>
                                                 </span>
                                                 <span onClick={() => this.deleteListItem(item.id)} className="delete-item">
@@ -195,10 +149,8 @@ class Home extends Component {
                                 </ul>
                             </div>
                             <hr/>
-                            {/* <h1 className="text-center mb-3">Completed</h1> */}
                             <div className="row p-4">
                                 <ul className="list">
-                            
                                 {completedItems.map((item,key) => {
                                     return(
                                         <li className="completed" id={`item-`+item.id}>
@@ -221,7 +173,7 @@ class Home extends Component {
                 </div>
                 
                 {/* Modal */}
-                {(this.state.sms.showModal) ? this.renderModal() : null}
+                {this.state.showModal ? <Modal data={this.state.modalData} showModal={this.state.showModal} closeModal={this.closeModal} /> : null}
                 
             </Fragment>
         );
