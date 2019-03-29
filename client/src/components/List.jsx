@@ -1,24 +1,27 @@
 import React, { Component, Fragment } from 'react';
 import API from '../utils/API';
-import Modal from '../components/Modal';
 import moment from 'moment';
-class Home extends Component {
+import {DragDropContext, Droppable} from 'react-beautiful-dnd';
+
+import TextModal from './TextModal';
+import ListItem from './ListItem';
+
+class List extends Component {
 
     state = {
         listItems: false,
         itemInput: '',
-        // sms: {
-        //     showModal: false
-        // },
-        showModal: false,
+        showTextModal: false,
         date: new Date(),
         modalData: {}
     }
 
     updateAllListItems = () => {
-        API.getListItems()
+        let userId = this.props.user.id;
+        let listId = this.props.list.id;
+        API.getListItems(userId,listId)
         .then(res => {
-            console.log(res.data);
+            console.log('updated whole list',res.data);
             this.setState({
                 listItems: res.data
             })
@@ -42,7 +45,8 @@ class Home extends Component {
         e.preventDefault();
         var item = this.state.itemInput;
         if(item === "") return;
-        API.postListItems({'value':item})
+        
+        API.postListItems({'value':item, 'ListId': this.props.list.id})
         .then(res => {
             this.state.listItems.todoItems.push(res.data);
             this.setState({
@@ -56,7 +60,7 @@ class Home extends Component {
     changeDateTimePicker = date => this.setState({ date })
 
     deleteListItem = itemId => {
-        console.log(itemId)
+        console.log('deleteListItem',itemId)
         API.deleteListItem(itemId)
         .then(res => {
             console.log(res);
@@ -72,8 +76,8 @@ class Home extends Component {
     }
 
     updateListItem = (itemId, status) => {
-        console.log(itemId)
-        API.updateListItem(itemId, {'completed':status})
+        console.log('updateListItem',itemId)
+        API.updateListItem(this.props.list.id, itemId, {'completed':status})
         .then(res => {
             console.log(res);
             // this.setState({
@@ -88,9 +92,9 @@ class Home extends Component {
         });
     }
 
-    closeModal = () => {
+    closeTextModal = () => {
         this.setState({
-            showModal: false,
+            showTextModal: false,
             modalData: {}
         });
     }
@@ -98,9 +102,8 @@ class Home extends Component {
     triggerTextModal = item => {
         this.setState({
             modalData: item,
-            showModal: true
+            showTextModal: true
         })
-        // API.sendSMS(item);
     }
 
     onBlur = () => {
@@ -111,46 +114,88 @@ class Home extends Component {
         console.log('test')
     }
 
+
+    onDragEnd = result => {
+
+        const { destination, source, draggableId } = result;
+        if (!destination) { return }
+        
+        const column = this.state.column;
+        const numberIds = Array.from(column.numberIds);
+        numberIds.splice(source.index, 1);
+        numberIds.splice(destination.index, 0, draggableId);
+        const numbers = numberIds.map((numberId) => 
+            parseInt(this.state.numbers[numberId].content, 10));
+        
+        this.playSound(numbers);
+        this.updateState(column, numberIds);
+
+    }
+
+    promptDeleteList = () => {
+        let listId = this.props.list.id;
+
+        let proceedDelete = window.confirm(`You are about to delete the list: '${this.props.list.listName}'. This cannot be undone.`);
+
+        if(proceedDelete) {
+            API.deleteList(this.props.list.id)
+            .then(res => {
+                console.log(res);
+                this.props.getAllUserLists();
+            }).catch(err => {
+                console.log(err);
+            });
+        }
+    }
+
     render() {
         if(!this.state.listItems) return null;
 
         let todoItems = this.state.listItems.todoItems;
         let completedItems = this.state.listItems.completedItems;
         return (
-            <Fragment>
-                <div className="container">
-                    <div className="row">
-                        <div className="col-12 col-md-6 mx-auto bg-light box-shadow">
+            <div class="list-container">
+                        <div className=" mx-auto bg-light box-shadow list-card" id={'list-'+this.props.list.id}>
                             <div className="row px-4 pt-4">
-                                <h3 className="mx-auto mb-4">Today</h3>
-                                <br/>
-                                <small className="list-curr-date text-muted">{moment().format('MMM D, YYYY')}</small>
+                                <div class="position-relative w-100 text-center">
+                                    <h3 className="mx-auto mb-4">{this.props.list.listName}</h3>
+                                    <small onClick={this.promptDeleteList} className="delete-list text-muted"><ion-icon name="close"></ion-icon></small>
+                                </div>
                                 <form className="col-12 bg-primary p-3 round box-shadow">
-                                    <input type="text" name="itemInput" onChange={this.handleChange} value={this.state.itemInput} placeholder="Make sure what you put here is actually important..." id="addListItem"/>
+                                    <input type="text" name="itemInput" onChange={this.handleChange} value={this.state.itemInput} placeholder="Is this effective?" id="addListItem"/>
                                     <button onClick={this.addListItem} id="add-item-btn"><ion-icon name="add"></ion-icon></button>
                                 </form>
                             </div>
+                            <DragDropContext
+                                onDragEnd={this.onDragEnd}
+                            >
                             <div className="row p-4">
-                                <ul className="list">
-                                    {todoItems.map((item,key) => {
-                                        return(
-                                            <li contentEditable onMouseOver={this.hoverListitem} onBlur={this.onBlur} className="todo" id={`item-`+item.id}>
-                                            {item.value}
-                                                <span className="list-item-btns">
-                                                <span onClick={() => this.triggerTextModal(item)} className="text-item">
-                                                    <ion-icon name="text"></ion-icon>
-                                                </span>
-                                                <span onClick={() => this.deleteListItem(item.id)} className="delete-item">
-                                                    <ion-icon name="trash"></ion-icon>
-                                                </span>
-                                                <span onClick={() => this.updateListItem(item.id, true)} className="complete-item">
-                                                    <ion-icon name="checkmark-circle-outline"></ion-icon>
-                                                </span>
-                                                </span>
-                                            </li>
-                                        )
-                                    })}
-                                </ul>
+                                <Droppable 
+                                    droppableId='todo-list'
+                                >
+                                    {(provided) => (
+                                        <ul 
+                                            className="list"
+                                            ref={provided.innerRef}
+                                            {...provided.droppableProps}
+                                            {...provided.droppablePlaceholder}
+                                        >
+                                        {todoItems.map((item,key) => {
+                                            return(
+                                                <ListItem 
+                                                    draggableId={item.id} 
+                                                    index={key}
+                                                    triggerTextModal={this.triggerTextModal}
+                                                    deleteListItem={this.deleteListItem}
+                                                    updateListItem={this.updateListItem}
+                                                    item={item}
+                                                />
+                                                )
+                                            })}
+                                            {provided.placeholder}
+                                        </ul>
+                                    )}
+                                </Droppable>
                             </div>
                             {this.state.listItems.completedItems.length !== 0 ? 
                                 <Fragment>
@@ -176,16 +221,15 @@ class Home extends Component {
                                     </div>
                                 </Fragment>
                             : null}
+                            </DragDropContext>
                         </div>
-                    </div>
-                </div>
                 
                 {/* Modal */}
-                {this.state.showModal ? <Modal data={this.state.modalData} showModal={this.state.showModal} closeModal={this.closeModal} /> : null}
+                {this.state.showTextModal ? <TextModal data={this.state.modalData} showTextModal={this.state.showTextModal} closeTextModal={this.closeTextModal} /> : null}
                 
-            </Fragment>
+            </div>
         );
     }
 }
 
-export default Home;
+export default List;

@@ -25,12 +25,19 @@ module.exports = function (sequelize, DataTypes) {
             validate: {
                 isEmail: true
             }
+        },
+        mobileNumber: {
+            type: DataTypes.STRING,
+            unique: true
         }
     });
 
     User.associate = function (models) {
         // User.hasMany(models.ListItem);
-        User.hasMany(models.List);
+        User.hasMany(models.List, {
+            onDelete: 'cascade', 
+            hooks: true
+        });
     }
 
     return User;

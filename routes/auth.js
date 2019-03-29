@@ -1,5 +1,3 @@
-// still from tap root
-
 var db = require('../Models');
 var passport = require('passport');
 var settings = require('../config/settings');
@@ -35,12 +33,11 @@ getToken = function (headers) {
 };
 
 //Api get to check jwt token:
-
-router.post('/jwt', passport.authenticate('jwt', { session: false }), function (req, res) {
-    console.log("inside router jwt route")
+router.post('/validate', passport.authenticate('jwt', { session: false }), function (req, res) {
+    // console.log("inside router jwt route")
     var token = getToken(req.headers);
     if (token) {
-        console.log(req.user)
+        // console.log(req.user)
         res.status(200).send({
             success: true,
             user: {
@@ -62,31 +59,18 @@ router.post('/jwt', passport.authenticate('jwt', { session: false }), function (
 
 });
 
-// Api Post to signup 
-router.post('/signup', function (req, res) {
+// Api Post to register 
+router.post('/register', function (req, res) {
     if (!req.body.email || !req.body.password) {
         res.json({ success: false, msg: 'Please pass email, password, and your full name name.' });
     } else {
         var newUser = {}
-        console.log('this is the profile url ' + req.body.profileImage)
-        if(req.body.profileImage === '') {
-            newUser = {
-                firstName: req.body.firstName,
-                lastName: req.body.lastName,
-                password: generateHash(req.body.password),
-                email: req.body.email,
-                userType: req.body.userType,
-            };
-        } else {
-            newUser = {
-                firstName: req.body.firstName,
-                lastName: req.body.lastName,
-                password: generateHash(req.body.password),
-                email: req.body.email,
-                userType: req.body.userType,
-                profileImage: req.body.profileImage
-            };
-        }
+        newUser = {
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            password: generateHash(req.body.password),
+            email: req.body.email,
+        };
           
         // save the user
         db.User.findOne({
@@ -94,7 +78,6 @@ router.post('/signup', function (req, res) {
                 email: req.body.email
             }
         }).then(function(exists){
-            console.log(exists);
             if (exists === null){
                 db.User.create(newUser).then(function(dbUser){
                     res.json({
@@ -116,6 +99,7 @@ router.post('/signup', function (req, res) {
         })
     }
 });
+
 // Api post to login
 router.post('/login', function (req, res) {
     db.User.findOne({
@@ -124,8 +108,7 @@ router.post('/login', function (req, res) {
         }
     }).then(function (user) {
         if (!user) {
-            res.send({ success: false, eMessage: 'Authentication failed. User not found.' });
-            console.log("made it inside if statement")
+            res.send({ success: false, message: 'Authentication failed. User not found.' });
         } else {
             // check if password matches
             if (comparePassword(req.body.password, user.password)) {
@@ -134,7 +117,6 @@ router.post('/login', function (req, res) {
                 // return the information including token as JSON
                 res.json({ success: true, token: 'JWT ' + token });
             } else {
-                console.log('test')
                 res.json({ success: false, pMessage: 'Authentication failed. Wrong password.' });
             }
         }

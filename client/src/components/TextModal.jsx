@@ -4,7 +4,7 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import DateTimePicker from 'react-datetime-picker';
 
-class Home extends Component {
+class TextModal extends Component {
 
     state = {
         date: new Date(),
@@ -42,7 +42,7 @@ class Home extends Component {
         })
         .then(res => {
             console.log(res);
-            _this.props.closeModal();
+            _this.props.closeTextModal();
         }).catch(err => {
             console.log(err);
         });
@@ -51,7 +51,7 @@ class Home extends Component {
     render() {
         let data = this.props.data;
         return (
-            <Modal show={this.props.showModal} onHide={this.props.closeModal}>
+            <Modal show={this.props.showTextModal} onHide={this.props.closeTextModal}>
                 <Modal.Header>
                     <Modal.Title>Set A Text Reminder</Modal.Title>
                 </Modal.Header>
@@ -76,7 +76,7 @@ class Home extends Component {
                         </div>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="secondary" onClick={this.props.closeModal}>
+                        <Button variant="secondary" onClick={this.props.closeTextModal}>
                         Cancel
                         </Button>
                         <Button variant="primary" type="submit">
@@ -90,4 +90,4 @@ class Home extends Component {
     }
 }
 
-export default Home;
+export default TextModal;

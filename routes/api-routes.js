@@ -31,14 +31,18 @@ var generateHash = function (password) {
   return bcrypt.hashSync(password, bcrypt.genSaltSync(10), null)
 }
 
-router.get('/getListItems', function (req, res) {
+router.get('/getListItems/:userId/:listId', function (req, res) {
+  let userId = parseInt(req.params.userId);
+  let listId = parseInt(req.params.listId);
   var listItems = {
     todoItems: [],
     completedItems: []
   }
-
+console.log('req.body')
+console.log(listId)
   db.ListItem.findAll({
     where: {
+      ListId: listId,
       completed: false
     }
   }).then(function (items, err) {
@@ -49,6 +53,7 @@ router.get('/getListItems', function (req, res) {
     listItems.todoItems = items;
     db.ListItem.findAll({
       where: {
+        ListId: listId,
         completed: true
       }
     }).then(function (items, err) {
@@ -60,11 +65,24 @@ router.get('/getListItems', function (req, res) {
       res.json(listItems);
     })
   })
-
-  
-
-  
 })
+
+router.get('/getAllUserLists/:id', function (req, res) {
+
+  let id = parseInt(req.params.id);
+  db.List.findAll({
+    where: {
+      UserId: id
+    }
+  }).then(function (lists, err) {
+    if (err) {
+      console.log(err);
+      return (err);
+    }
+    console.log('get all user lists',lists);
+    res.json(lists);
+  })
+});
 
 //dashboard pages routes
 // Auth route - populate vendor dashboard based on their user id.
@@ -126,46 +144,56 @@ router.get('/populateDashboardMarket/:id', passport.authenticate('jwt', { sessio
   }
 });
 
+router.post('/addNewList',passport.authenticate('jwt', { session: false }), function (req, res) {
+  // add new list to db
+  if (getToken(req.headers)) {
+
+    list = req.body;
+    user = JSON.parse(req.headers.user);
+
+    db.List.create({
+      UserId: user.id,
+      listName: list.title
+    })
+      .then(function (lists, err) {
+        if (err) {
+          return (err);
+        }
+        else {
+          res.json(lists);
+        }
+    });
+
+  }
+});
+
 //Dashboard create product route
-// router.post('/postListItems', passport.authenticate('jwt', { session: false }), function (req, res) {
-router.post('/postListItems', function (req, res) {
-  // var token = getToken(req.headers);
+router.post('/postListItems', passport.authenticate('jwt', { session: false }), function (req, res) {
+// router.post('/postListItems', function (req, res) {
+  var token = getToken(req.headers);
 
-  // console.log(req.user.dataValues.id);
-  // console.log("here is the res.data:")
-  // console.log(req.user.dataValues);
+  if (token) {
 
-  // if (token) {
-  //   console.log(req.user.dataValues.id);
-  //   //create an object that contains all of the information we need from the request body
-  //   //req.user.dataValues.id is attached to the request
-  //   var newProduct = {
-  //     item: req.body.item,
-  //     image: req.body.image,
-  //     UserId: req.user.dataValues.id
-  //   }
-
-    console.log("in if statement")
+    console.log('in token');
+    console.log("in if statement");
+    console.log(req.headers);
     var item = req.body;
-    console.log(item);
 
     db.ListItem.create(item)
       .then(function (items, err) {
-        console.log(items);
-        console.log('success');
-        console.log(err);
         if (err) {
           return (err);
         }
         else {
           res.json(items);
         }
-      });
-  // } else {
-  //   return res.status(403).send({ success: false, msg: 'Unauthorized.' });
-  // }
+    });
 
-})
+  } else {
+    return res.status(403).send({ success: false, msg: 'Unauthorized.' });
+  }
+
+});
 
 router.post('/newMarket', passport.authenticate('jwt', { session: false }), function (req, res) {
   var token = getToken(req.headers);
@@ -213,16 +241,22 @@ router.post('/newMarket', passport.authenticate('jwt', { session: false }), func
 //Dashboard update a product route
 
 // router.put('/updateListItem/:id', passport.authenticate('jwt', { session: false }), function (req, res) {
-router.put('/updateListItem/:id', function (req, res) {
+router.put('/updateListItem/:listId/:itemId', function (req, res) {
   // var token = getToken(req.headers);
-  let id = parseInt(req.params.id);
+  let listId = parseInt(req.params.listId);
+  let itemId = parseInt(req.params.itemId);
+  console.log('itemId')
+  console.log(itemId)
   // if (token) {
     db.ListItem.update(
       {
         // item: req.body.item,
         completed: req.body.completed
       },
-      { where: { id: id } })
+      { where: { 
+        ListId: listId,
+        id: itemId
+      } })
       .then(function (item, err) {
         if (err) {
           return (err);
@@ -315,11 +349,10 @@ router.put('/updatePassword/:id', passport.authenticate('jwt', { session: false 
   }
 })
 
-// router.delete('/deleteListItem/:id', passport.authenticate('jwt', { session: false }), function (req, res) {
-router.delete('/deleteListItem/:id', function (req, res) {
-  // let token = getToken(req.headers);
-  let id = parseInt(req.params.id);
-  // if (token) {
+router.delete('/deleteListItem/:id', passport.authenticate('jwt', { session: false }), function (req, res) {
+  if (getToken(req.headers)) {
+    let id = parseInt(req.params.id);
+
     db.ListItem.destroy({
       where: { id: id }
     }).then(function (item, err) {
@@ -329,10 +362,28 @@ router.delete('/deleteListItem/:id', function (req, res) {
         res.json(item);
       }
     });
-  // } else {
-  //   return res.status(403).send({ success: false, msg: 'Unauthorized' });
-  // }
-})
+  } else {
+    return res.status(403).send({ success: false, msg: 'Unauthorized' });
+  }
+});
+
+router.delete('/deleteList/:id', passport.authenticate('jwt', { session: false }), function (req, res) {
+  if (getToken(req.headers)) {
+    let id = parseInt(req.params.id);
+
+    db.List.destroy({
+      where: { id: id }
+    }).then(function (list, err) {
+      if (err) {
+        return (err);
+      } else {
+        res.json(list);
+      }
+    });
+  } else {
+    return res.status(403).send({ success: false, msg: 'Unauthorized' });
+  }
+});
 
 
 //farmer page routes

@@ -1,28 +1,21 @@
 import axios from 'axios';
-// var md5 = require('md5');
 
 // All api routes are defined here centrally for ease of use.
 const url = 'http://localhost:3001/api/';
-// const authUrl = 'https://everythinginall.com/wp-json/jwt-auth/v1/token/';
-// const mcListId = 'd25ec94b8f';
-
+const authURL = 'http://localhost:3001/api/auth/';
 
 export default {
 
-  getListItems: () => axios.get(url + 'getListItems'),
+  getListItems: (userId,listId) => axios.get(url + `getListItems/${userId}/${listId}`),
   postListItems: data => axios.post(url + 'postListItems', data),
   sendSMS: data => axios.post(url + 'sendSMS', data),
   deleteListItem: id => axios.delete(url + 'deleteListItem/'+id),
-  updateListItem: (id, data) => axios.put(url + 'updateListItem/'+id, data),
-//   getPosts: num => axios.get(url + 'posts?&per_page=' + num),
-//   getQuotes: () => axios.get(url + 'posts?&per_page=100'),
-//   getPages: () => axios.get(url + 'pages'),
-//   getCourses: () => axios.get(url + 'courses'),
-//   getPost: slug => axios.get(url + 'posts?slug=' + slug),
-//   getPage: (pageSlug) => axios.get(url + 'pages?slug='+pageSlug),
-//   getCourse: (courseSlug) => axios.get(url + 'course?slug=' + courseSlug),
-//   sendFile: (slug, file) => axios.post(url + slug, file),
-//   login: (data) => axios.post(authUrl, data),
-//   validateJWT: () => axios.post(authUrl + 'validate')
-  // mcAddSubscriber: (data) => axios.post('https://memeandmeaning.us16.list-manage.com/subscribe/post?u=4c73c4e387b1f2b219c1f2af6&amp;id=d25ec94b8f', data)
+  updateListItem: (listId, itemId, data) => axios.put(url + `updateListItem/${listId}/${itemId}`, data),
+  loginUser: (data) => axios.post(authURL + 'login', data),
+  registerUser: (data) => axios.post(authURL + 'register', data),
+  validateUser: () => axios.post(authURL + 'validate'),
+  getAllUserLists: (id) => axios.get(url + 'getAllUserLists/'+id),
+  addNewList: data => axios.post(url + 'addNewList/',data),
+  deleteList: id => axios.delete(url + 'deleteList/'+id),
+
 };

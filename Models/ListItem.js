@@ -15,7 +15,8 @@ module.exports = function (sequelize, DataTypes) {
         ListItem.belongsTo(models.List, {
             foreignKey: {
                 allowNull: false
-            }
+            },
+            onDelete: 'CASCADE'
         });
     };
 

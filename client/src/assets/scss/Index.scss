@@ -4,14 +4,54 @@ body{
   background-color: $gray-200 !important;
 }
 
+.navbar-brand{
+  font-family: 'Permanent Marker';
+}
+#navbarNav{
+  justify-content: flex-end;
+}
+
 .bg-primary{
   background-color: $theme-color !important;
+}
+.btn-primary{
+  background-color: $theme-color !important; 
+  border: $theme-color; 
 }
 
 .box-shadow{
   -webkit-box-shadow: $box-shadow;
           -moz-box-shadow: $box-shadow;
               box-shadow: $box-shadow;
+}
+
+
+// .container-scroll{
+//   overflow-x: auto;
+//   white-space: nowrap;
+//   .row {
+//     width: fit-content; /* = 100% * 4/3 */
+//     margin-top: 24px;
+//     .col-md-3{
+//       display: inline-block;
+//       float: none;
+//     }
+//   }
+// }
+#content{
+  padding: 3rem 0;
+}
+.vh-100{
+  min-height: 100vh;
+  height: fit-content;
+}
+
+input{
+  width: 100%;
+  padding: 5px;
+  border-radius: 3px;
+  border: 1px solid #ced4da;
+  margin-bottom: 10px;
 }
 
 #addListItem{
@@ -30,6 +70,22 @@ body{
   outline: none;
   -webkit-appearance: none;
   -moz-appearance: none;
+  margin-bottom: 0;
+
+}
+
+.modal-dialog{
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#add-list-btn{
+  font-size: 40px;
+    position: absolute;
+    right: 10px;
+    top: 60px
 }
 
 ::placeholder{
@@ -50,54 +106,105 @@ body{
   color: $theme-color;
 }
 
-.list-curr-date{
-  position:absolute;
-  right:2rem;
+.delete-list{
+  position: absolute;
+  right: -3px;
+  top: -12px;
 }
 
-.list{
-  list-style: none;
-  width: 100%;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  .completed {
-    opacity: .5;
-    transition: 200ms ease-in-out all;
+
+.lists-grid{
+  display: grid;
+  grid-auto-columns: max-content;
+
+  .lists{
+
+    display: flex;
+    overflow-x: auto;
+
+    .list-container{
+      padding: 10px;
+      .list-card{
+        width: 100%;
+        max-width: 420px;
+        padding: 0.5rem 1rem;
+      }
+      h3{
+        font-family: 'Permanent Marker'
+      }
+      .list{
+        list-style: none;
+        width: 100%;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        .completed {
+          opacity: .5;
+          transition: 200ms ease-in-out all;
+        }
+        .completed:hover{
+          opacity: 1;
+        }
+        li {
+          width: 100%;
+          min-height: 50px;
+          float: left;
+          font-size: 14px;
+          display: flex;
+          align-items: center;
+          font-weight: 500;
+          color: #444;
+          line-height: 22px;
+          background: #fff;
+          position: relative;
+          margin: 5px 0 5px 0;
+          padding: 14px 100px 14px 14px;
+          word-break: break-word;
+          border-radius: $border-radius;
+          -webkit-box-shadow: $box-shadow;
+                -moz-box-shadow: $box-shadow;
+                    box-shadow: $box-shadow;
+          .list-item-btns{
+            position: absolute;
+            right: 1rem;
+            font-size: 24px;
+            span{
+              transition: 200ms ease-in-out all;
+              margin: 0 2px;
+            }
+            span:hover{
+              color:$theme-color;
+              cursor: pointer;
+            }
+          }
+        }
+      }
+    }
   }
-  .completed:hover{
-    opacity: 1;
+}
+
+
+
+
+
+
+.form-group{
+  label{
+    display: block;
   }
-  li {
+  input[type='checkbox']{
+    width: unset;
+    margin-bottom: 0;
+    margin-right: 5px;
+  }
+  .react-datetime-picker{
     width: 100%;
-    min-height: 50px;
-    float: left;
-    font-size: 14px;
-    font-weight: 500;
-    color: #444;
-    line-height: 22px;
-    background: #fff;
-    position: relative;
-    margin: 5px 0 5px 0;
-    padding: 14px 100px 14px 14px;
-    word-break: break-word;
-    border-radius: $border-radius;
-    -webkit-box-shadow: $box-shadow;
-          -moz-box-shadow: $box-shadow;
-              box-shadow: $box-shadow;
-    .list-item-btns{
-      position: absolute;
-      right: 1rem;
-      font-size: 24px;
-      span{
-        transition: 200ms ease-in-out all;
-        margin: 0 2px;
-      }
-      span:hover{
-        color:$theme-color;
-        cursor: pointer;
-      }
+    .react-datetime-picker__wrapper{
+      width: 100%;
+      padding: 5px;
+      border-radius: 3px;
+      border: 1px solid #ced4da;
     }
   }
   
