@@ -2,7 +2,7 @@ module.exports = function (sequelize, DataTypes) {
     var ListItem = sequelize.define("ListItem", {
         value: {
             type: DataTypes.STRING,
-            allowNull: false,
+            allowNull: false
         },
         completed: {
             type: DataTypes.BOOLEAN,

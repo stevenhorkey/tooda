@@ -1,19 +1,26 @@
-@import url("https://fonts.googleapis.com/css?family=Pacifico|Permanent+Marker");
+@import url("https://fonts.googleapis.com/css?family=Mukta");
 body {
   background-color: #edf0f1 !important; }
 
-.navbar-brand {
-  font-family: 'Permanent Marker'; }
+.navbar {
+  position: fixed;
+  width: 100%;
+  z-index: 10; }
+  .navbar .navbar-brand {
+    font-family: 'Mukta';
+    font-size: 36px; }
+  .navbar #navbarNav {
+    justify-content: flex-end; }
 
-#navbarNav {
-  justify-content: flex-end; }
+#logout {
+  font-size: 22px; }
 
 .bg-primary {
-  background-color: #25b99a !important; }
+  background-color: #88a4ac !important; }
 
 .btn-primary {
-  background-color: #25b99a !important;
-  border: #25b99a; }
+  background-color: #88a4ac !important;
+  border: #88a4ac; }
 
 .box-shadow {
   -webkit-box-shadow: 0px 1px 2px rgba(44, 62, 80, 0.1);
@@ -21,7 +28,10 @@ body {
   box-shadow: 0px 1px 2px rgba(44, 62, 80, 0.1); }
 
 #content {
-  padding: 3rem 0; }
+  padding: 3rem 0;
+  overflow: scroll;
+  position: relative;
+  top: 60px; }
 
 .vh-100 {
   min-height: 100vh;
@@ -33,6 +43,9 @@ input {
   border-radius: 3px;
   border: 1px solid #ced4da;
   margin-bottom: 10px; }
+
+.pacifico {
+  font-family: 'Pacifico'; }
 
 #addListItem {
   width: 100%;
@@ -60,9 +73,27 @@ input {
 
 #add-list-btn {
   font-size: 40px;
-  position: absolute;
-  right: 10px;
-  top: 60px; }
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 55px;
+  z-index: 11;
+  color: #adb5bd;
+  transition: all ease-in-out 200ms; }
+  #add-list-btn :hover {
+    color: black;
+    -webkit-box-shadow: 0px 1px 2px rgba(44, 62, 80, 0.1);
+    -moz-box-shadow: 0px 1px 2px rgba(44, 62, 80, 0.1);
+    box-shadow: 0px 1px 2px rgba(44, 62, 80, 0.1); }
+  #add-list-btn ion-icon {
+    background: #edf0f1;
+    border-radius: 50%;
+    padding: 5px;
+    cursor: pointer; }
+
+.h-100-nav {
+  height: fit-content;
+  min-height: calc(100vh - 100px); }
 
 ::placeholder {
   color: white; }
@@ -78,7 +109,7 @@ input {
   position: absolute;
   right: 15px;
   font-size: 30px;
-  color: #25b99a; }
+  color: #88a4ac; }
 
 .delete-list {
   position: absolute;
@@ -90,15 +121,19 @@ input {
   grid-auto-columns: max-content; }
   .lists-grid .lists {
     display: flex;
-    overflow-x: auto; }
+    overflow-x: auto;
+    padding: 0 10px; }
     .lists-grid .lists .list-container {
       padding: 10px; }
       .lists-grid .lists .list-container .list-card {
         width: 100%;
         max-width: 420px;
         padding: 0.5rem 1rem; }
+        @media (max-width: 600px) {
+          .lists-grid .lists .list-container .list-card {
+            max-width: calc(88vw); } }
       .lists-grid .lists .list-container h3 {
-        font-family: 'Permanent Marker'; }
+        font-family: 'Mukta'; }
       .lists-grid .lists .list-container .list {
         list-style: none;
         width: 100%;
@@ -108,10 +143,16 @@ input {
         flex-direction: column; }
         .lists-grid .lists .list-container .list .completed {
           opacity: .5;
-          transition: 200ms ease-in-out all; }
+          transition: 200ms ease-in-out all;
+          text-decoration: line-through;
+          background: #b8e8b854; }
         .lists-grid .lists .list-container .list .completed:hover {
-          opacity: 1; }
+          opacity: .8; }
+        .lists-grid .lists .list-container .list li:hover {
+          border: 1px solid #dee2e6; }
         .lists-grid .lists .list-container .list li {
+          transition: 200ms ease-in-out all;
+          border: 1px solid transparent;
           width: 100%;
           min-height: 50px;
           float: left;
@@ -130,6 +171,15 @@ input {
           -webkit-box-shadow: 0px 1px 2px rgba(44, 62, 80, 0.1);
           -moz-box-shadow: 0px 1px 2px rgba(44, 62, 80, 0.1);
           box-shadow: 0px 1px 2px rgba(44, 62, 80, 0.1); }
+          .lists-grid .lists .list-container .list li textarea {
+            width: 100%;
+            padding: 0;
+            border: none;
+            margin: 0;
+            resize: none;
+            background: transparent; }
+          .lists-grid .lists .list-container .list li textarea:focus {
+            outline: none; }
           .lists-grid .lists .list-container .list li .list-item-btns {
             position: absolute;
             right: 1rem;
@@ -138,7 +188,7 @@ input {
               transition: 200ms ease-in-out all;
               margin: 0 2px; }
             .lists-grid .lists .list-container .list li .list-item-btns span:hover {
-              color: #25b99a;
+              color: #88a4ac;
               cursor: pointer; }
 
 .form-group label {

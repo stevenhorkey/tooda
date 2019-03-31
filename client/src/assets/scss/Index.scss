@@ -4,11 +4,23 @@ body{
   background-color: $gray-200 !important;
 }
 
-.navbar-brand{
-  font-family: 'Permanent Marker';
+.navbar{
+  position: fixed;
+  width: 100%;
+  z-index: 10;
+  .navbar-brand{
+    font-family: 'Mukta';
+    font-size: 36px;
+  }
+  #navbarNav{
+    justify-content: flex-end;
+  }
 }
-#navbarNav{
-  justify-content: flex-end;
+
+
+
+#logout{
+  font-size: 22px;
 }
 
 .bg-primary{
@@ -40,10 +52,18 @@ body{
 // }
 #content{
   padding: 3rem 0;
+  overflow: scroll;
+  position: relative;
+  top: 60px;
 }
 .vh-100{
   min-height: 100vh;
   height: fit-content;
+}
+
+.modal-header,
+.modal-footer{
+  // border: none;
 }
 
 input{
@@ -52,6 +72,10 @@ input{
   border-radius: 3px;
   border: 1px solid #ced4da;
   margin-bottom: 10px;
+}
+
+.pacifico{
+  font-family: 'Pacifico';
 }
 
 #addListItem{
@@ -83,9 +107,31 @@ input{
 
 #add-list-btn{
   font-size: 40px;
-    position: absolute;
-    right: 10px;
-    top: 60px
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 55px;
+  z-index: 11;
+  color: #adb5bd;
+  transition: all ease-in-out 200ms;
+  :hover{
+    color: black;
+    -webkit-box-shadow: $box-shadow;
+          -moz-box-shadow: $box-shadow;
+              box-shadow: $box-shadow;
+  }
+  ion-icon{
+    background: $gray-200;
+    border-radius: 50%;
+    padding: 5px;
+    cursor: pointer;
+    
+  }
+}
+
+.h-100-nav{
+  height: fit-content;
+  min-height: calc(100vh - 100px);
 }
 
 ::placeholder{
@@ -121,6 +167,7 @@ input{
 
     display: flex;
     overflow-x: auto;
+    padding: 0 10px;
 
     .list-container{
       padding: 10px;
@@ -128,9 +175,12 @@ input{
         width: 100%;
         max-width: 420px;
         padding: 0.5rem 1rem;
+        @media (max-width: 600px){
+          max-width: calc(88vw);
+        }
       }
       h3{
-        font-family: 'Permanent Marker'
+        font-family: 'Mukta'
       }
       .list{
         list-style: none;
@@ -142,11 +192,27 @@ input{
         .completed {
           opacity: .5;
           transition: 200ms ease-in-out all;
+          text-decoration: line-through;
+          background: $light-green;
+          textarea{
+            // background: $light-green;
+          }
         }
+        
         .completed:hover{
-          opacity: 1;
+          opacity: .8;
+          
+        }
+        li:hover{
+          border: 1px solid $gray-300;
+        }
+        li:focus{
+          textarea{
+          }
         }
         li {
+          transition: 200ms ease-in-out all;
+          border:1px solid transparent;
           width: 100%;
           min-height: 50px;
           float: left;
@@ -165,6 +231,17 @@ input{
           -webkit-box-shadow: $box-shadow;
                 -moz-box-shadow: $box-shadow;
                     box-shadow: $box-shadow;
+          textarea{
+            width: 100%;
+            padding: 0;
+            border: none;
+            margin: 0;
+            resize: none;
+            background: transparent;
+          }
+          textarea:focus{
+            outline: none;
+          }
           .list-item-btns{
             position: absolute;
             right: 1rem;

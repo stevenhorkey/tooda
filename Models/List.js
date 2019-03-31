@@ -1,13 +1,13 @@
 module.exports = function (sequelize, DataTypes) {
     var List = sequelize.define("List", {
-        listName: {
+        title: {
             type: DataTypes.TEXT,
             allowNull: false,
         },
-        active: {
-            type: DataTypes.BOOLEAN,
+        itemOrder: {
+            type: DataTypes.TEXT,
             allowNull: false,
-            defaultValue: 1
+            defaultValue: ''
         }
     });
 

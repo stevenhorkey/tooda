@@ -7,15 +7,17 @@ const authURL = 'http://localhost:3001/api/auth/';
 export default {
 
   getListItems: (userId,listId) => axios.get(url + `getListItems/${userId}/${listId}`),
-  postListItems: data => axios.post(url + 'postListItems', data),
+  addListItem: data => axios.post(url + 'addListItem', data),
   sendSMS: data => axios.post(url + 'sendSMS', data),
-  deleteListItem: id => axios.delete(url + 'deleteListItem/'+id),
+  deleteListItem: (listId, itemId) => axios.delete(url + `deleteListItem/${listId}/${itemId}`),
   updateListItem: (listId, itemId, data) => axios.put(url + `updateListItem/${listId}/${itemId}`, data),
+  updateListItemOrder: (listId, newItemOrder) => axios.put(url + `updateListItemOrder/${listId}`, newItemOrder),
+  updateListItemValue: (listId, itemId, newValue) => axios.put(url + `updateListItemValue/${listId}/${itemId}`, newValue),
   loginUser: (data) => axios.post(authURL + 'login', data),
   registerUser: (data) => axios.post(authURL + 'register', data),
   validateUser: () => axios.post(authURL + 'validate'),
   getAllUserLists: (id) => axios.get(url + 'getAllUserLists/'+id),
-  addNewList: data => axios.post(url + 'addNewList/',data),
+  addList: data => axios.post(url + 'addList/',data),
   deleteList: id => axios.delete(url + 'deleteList/'+id),
 
 };

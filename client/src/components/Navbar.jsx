@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from 'react';
-import {Draggable} from 'react-beautiful-dnd';
 import moment from 'moment';
 
 class Navbar extends Component {
@@ -11,8 +10,8 @@ class Navbar extends Component {
 
     render() {
         return (
-            <nav className="navbar navbar-expand-lg navbar-light bg-light">
-                <a className="navbar-brand" href="#">TooDa</a>
+            <nav className="navbar navbar-expand-lg navbar-light bg-light box-shadow">
+                <a className="navbar-brand" href="#">reList</a>
                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                 </button>
@@ -27,8 +26,8 @@ class Navbar extends Component {
                     <li className="nav-item">
                         <span className="nav-link" href="#">{moment().format('MMM D, YYYY')}</span>
                     </li>
-                    <li className="nav-item">
-                        <a className="nav-link" href="#" onClick={this.logout}>Logout</a>
+                    <li className="nav-item" id="logout">
+                        <a className="nav-link" href="#" onClick={this.logout}><ion-icon name="log-out"></ion-icon></a>
                     </li>
                     {/* <li className="nav-item">
                         <a className="nav-link disabled" href="#">Disabled</a>

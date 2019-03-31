@@ -21,13 +21,13 @@ class ListModal extends Component {
         this.setState({[name]:value});
     };
 
-    addNewList = e => {
+    addList = e => {
         e.preventDefault();
         let {title} = this.state;
 
         let _this = this;
 
-        API.addNewList({
+        API.addList({
             title
         })
         .then(res => {
@@ -46,7 +46,7 @@ class ListModal extends Component {
                 <Modal.Header>
                     <Modal.Title>Create a New List</Modal.Title>
                 </Modal.Header>
-                <form onSubmit={this.addNewList}>
+                <form onSubmit={this.addList}>
                     <Modal.Body>
                         <div className="container">
                             <div className="row">
@@ -61,10 +61,10 @@ class ListModal extends Component {
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={this.props.closeListModal}>
-                        Cancel
+                            Cancel
                         </Button>
                         <Button variant="primary" type="submit">
-                        Create List
+                            Create List
                         </Button>
                     </Modal.Footer>
                 </form>

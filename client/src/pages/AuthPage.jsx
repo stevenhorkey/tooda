@@ -103,7 +103,7 @@ class AuthPage extends Component {
       return( 
       <Fragment>
           <div className="container">
-              <div className="row vh-100 align-items-center justify-content-center">
+              <div className="row align-items-center justify-content-center">
                   <div className="bg-light col-md-4 col-sm-6 col-12 bg-trans-dark py-4 text-left px-5" id="login-container">
                     <div>
                     <div className="row">
