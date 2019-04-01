@@ -1,9 +1,9 @@
 {
     "development": {
       "username": "root",
-      "password": "yekroh",
+      "password": "Yekroh01",
       "database": "todo_app",
-      "host": "18.215.248.253",
+      "host": "todo-app-database.cwm59xcvpsxw.us-east-1.rds.amazonaws.com",
       "dialect": "mysql",
       "port": 3306
     }
