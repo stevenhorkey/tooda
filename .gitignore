@@ -65,3 +65,4 @@ typings/
 # config for db 
 config.json
 
+code-steven-todo-ec2.pem

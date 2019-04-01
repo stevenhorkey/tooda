@@ -9,8 +9,9 @@ var bcrypt = require('bcrypt-nodejs');
 const Op = require('sequelize').Op;
 var Sequelize = require('sequelize');
 var sms = require('../utils/sms');
-var sequelize = new Sequelize('todo_app', 'root', 'yekroh',{
-  host: 'http://18.215.248.253',
+
+var sequelize = new Sequelize('todo_app', 'root', 'Yekroh01',{
+  host: 'todo-app-database.cwm59xcvpsxw.us-east-1.rds.amazonaws.com',
   dialect: 'mysql'
 });
 
@@ -235,21 +236,21 @@ router.delete('/deleteListItem/:listId/:itemId', passport.authenticate('jwt', { 
   if (getToken(req.headers)) {
     let listId = parseInt(req.params.listId);
     let itemId = parseInt(req.params.itemId);
-
-    db.ListItem.destroy({
-      where: { id: itemId }
-    }).then(function (item, err) {
-      if (err) return (err);
-
-      sequelize.query(`UPDATE Lists SET itemOrder = REPLACE(itemOrder,'${itemId},','') WHERE id = ${listId}`, {
-        type: Sequelize.QueryTypes.UPDATE
-      }).then((results) => {
-        console.log('hehehe');
-        console.log(results);
+    console.log("UPDATE Lists SET `itemOrder` = REPLACE(itemOrder,'"+itemId+",','') WHERE `id` = '"+listId+"'")
+    sequelize.query("UPDATE Lists SET `itemOrder` = REPLACE(itemOrder,'"+itemId+",','') WHERE `id` = '"+listId+"'", {
+      type: Sequelize.QueryTypes.UPDATE
+    }).then((results) => {
+      console.log('hehehe');
+      console.log(results);
+      db.ListItem.destroy({
+        where: { id: itemId }
+      }).then(function (item, err) {
+        if (err) return (err);
+        res.json(item);
       });
-
-      res.json(item);
     });
+
+    
   } else return res.status(403).send({ success: false, msg: 'Unauthorized' });
 });
 
