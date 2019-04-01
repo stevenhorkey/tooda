@@ -3,22 +3,7 @@
       "username": "root",
       "password": "yekroh",
       "database": "todo_app",
-      "host": "127.0.0.1",
-      "dialect": "mysql",
-      "port": 3306
-    },
-    "test": {
-      "username": "root",
-      "password": null,
-      "database": "todo_app",
-      "host": "127.0.0.1",
-      "dialect": "mysql"
-    },
-    "production": {
-      "username": "rh8igdp1mnz98dol",
-      "password": "d95iwpxmhyddud9i",
-      "database": "todo_app",
-      "host": "",
+      "host": "18.215.248.253",
       "dialect": "mysql",
       "port": 3306
     }

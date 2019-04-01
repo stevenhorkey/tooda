@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 // All api routes are defined here centrally for ease of use.
-const url = 'http://localhost:3001/api/';
-const authURL = 'http://localhost:3001/api/auth/';
+const url = '/api/';
+const authURL = '/api/auth/';
 
 export default {
 

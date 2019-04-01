@@ -10,7 +10,7 @@ const Op = require('sequelize').Op;
 var Sequelize = require('sequelize');
 var sms = require('../utils/sms');
 var sequelize = new Sequelize('todo_app', 'root', 'yekroh',{
-  host: 'localhost',
+  host: 'http://18.215.248.253',
   dialect: 'mysql'
 });
 
