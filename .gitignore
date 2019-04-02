@@ -66,3 +66,5 @@ typings/
 config.json
 
 code-steven-todo-ec2.pem
+
+todo_app_ec2.pem
