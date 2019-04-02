@@ -5,16 +5,18 @@ var path = require("path");
 var Sequelize = require("sequelize");
 var basename = path.basename(module.filename);
 var env = process.env.NODE_ENV || "development";
-var config = require(__dirname + "/../config/config.json")[env];
 var db = {};
-
-if (config.use_env_variable) {
-  var sequelize = new Sequelize(process.env[config.use_env_variable]);
-} else {
-  var sequelize = new Sequelize(config.database, config.username, config.password, config);
-}
-
-console.log(config);
+require('dotenv').config()
+// var config = require(__dirname + "/../config/config.json")[env];
+// if (config.use_env_variable) {
+//   var sequelize = new Sequelize(process.env[config.use_env_variable]);
+// } else {
+//   var sequelize = new Sequelize(config.database, config.username, config.password, config);
+// }
+var sequelize = new Sequelize(process.env.MYSQL_DB, process.env.MYSQL_USER, process.env.MYSQL_PASSWORD,{
+  host: process.env.MYSQL_HOST,
+  dialect: 'mysql'
+});
 
 fs
   .readdirSync(__dirname)

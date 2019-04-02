@@ -1,0 +1,3 @@
+ssh -i "code-steven-todo-ec2.pem" ec2-user@ec2-34-192-131-39.compute-1.amazonaws.com
+
+ssh -i "code-steven-todo-ec2.pem" ec2-user@ec2-3-211-47-9.compute-1.amazonaws.com
