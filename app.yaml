@@ -1,8 +1,0 @@
-# [START app_yaml]
-env: flex
-runtime: nodejs
-
-env_variables:
-  MYSQL_DSN: mysql:unix_socket=/cloudsql/todo-app-ua-node:us-central1:todo-app-sql;dbname=todo_app
-  MYSQL_USER: root
-  MYSQL_PASSWORD: 'yekroh'
