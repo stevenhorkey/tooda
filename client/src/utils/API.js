@@ -2,27 +2,28 @@ import axios from 'axios';
 
 function loadBalance(){
   let rand = Math.round(Math.random());
-  if(rand === 1){
-    let url = {
-      api: 'http://3.211.47.9/api/',
-      auth: 'http://3.211.47.9/api/auth/'
-    };
-    console.log(url);
-    return url;
-  } else {
-    let url = {
-      api: 'http://34.192.131.39/api/',
-      auth: 'http://34.192.131.39/api/auth/'
-    };
-    console.log(url);
-    return url;
-  }
+  // if(rand === 1){
+  //   let url = {
+  //     api: 'http://3.211.47.9/api/',
+  //     auth: 'http://3.211.47.9/api/auth/'
+  //   };
+  //   console.log(url);
+  //   return url;
+  // } else {
+  //   let url = {
+  //     api: 'http://34.192.131.39/api/',
+  //     auth: 'http://34.192.131.39/api/auth/'
+  //   };
+  //   console.log(url);
+  //   return url;
+  // }
   // for localhost
-  // var url = {
-  //   api: 'localhost:3001/api/',
-  //   auth: 'localhost:3001/api/auth/'
-  // };
-  // return url;
+  var url = {
+    api: 'http://127.0.0.1:3001/api/',
+    auth: 'http://127.0.0.1:3001/api/auth/'
+  };
+  console.log(url)
+  return url;
 }
 
 // All api routes are defined here centrally for ease of use.

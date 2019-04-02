@@ -8,6 +8,7 @@ var apiRoutes = require('./routes/api-routes');
 var app = express();
 var auth = require('./routes/auth');
 var sms = require('./utils/sms');
+var cors = require('cors')
 require('dotenv').config()
 
 app.use(function(req, res, next) {
@@ -17,6 +18,7 @@ app.use(function(req, res, next) {
   next();
 });
 
+app.use(cors())
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
