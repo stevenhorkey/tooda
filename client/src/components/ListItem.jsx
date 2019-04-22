@@ -24,7 +24,7 @@ class ListItem extends Component {
     // }
     
     handleChange = event => {
-        console.log('handleChange')
+        // console.log('handleChange')
         const name = event.target.name;
         const value = event.target.value;
         this.setState({[name]:value});
@@ -32,7 +32,7 @@ class ListItem extends Component {
 
     render() {
         let item = this.props.item;
-        console.log(item);
+        // console.log(item);
         return (
             <Draggable 
                 draggableId={item.id} 

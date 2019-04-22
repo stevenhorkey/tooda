@@ -14,10 +14,10 @@ class Lists extends Component {
     }
 
     getAllUserLists = () => {
-        console.log('getAllUserLists')
+        // console.log('getAllUserLists')
         API.getAllUserLists(this.props.user.id)
         .then(res => {
-            console.log(res);
+            // console.log(res);
             this.setState({
                 lists: res.data
             });
@@ -41,7 +41,7 @@ class Lists extends Component {
                 <div className="lists">
                     <div onClick={this.triggerListModal} id="add-list-btn"><ion-icon name="add"></ion-icon></div>
                     {this.state.lists.map((list,key) => {
-                        console.log('mapping list items')
+                        // console.log('mapping list items')
                         return(
                             <List 
                                 list={list}

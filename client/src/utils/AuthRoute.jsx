@@ -13,21 +13,21 @@ class AuthRoute extends Component{
 
     componentDidMount = () => {
 
-        console.log(this.state)
-        console.log(localStorage.getItem('jwtToken'));
+        // console.log(this.state)
+        // console.log(localStorage.getItem('jwtToken'));
         axios.defaults.headers.common['Authorization'] = localStorage.getItem('jwtToken');
         
 
         API.validateUser()
         .then(res => {
-            console.log(res);
+            // console.log(res);
             this.setState({
                 user: res.data.user,
                 success: res.data.success
             })
-            console.log(res.data.user);
+            // console.log(res.data.user);
             axios.defaults.headers.common['User'] = JSON.stringify(res.data.user);
-            console.log(axios.defaults.headers.common);
+            // console.log(axios.defaults.headers.common);
         }).catch(err => {
             console.log(err);
             this.setState({

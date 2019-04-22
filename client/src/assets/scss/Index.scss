@@ -263,9 +263,13 @@ input{
 
 
 
+.auth-form-titles{
+  cursor: pointer;
+}
 
-
-
+label{
+  margin-bottom: 3px;
+}
 .form-group{
   label{
     display: block;

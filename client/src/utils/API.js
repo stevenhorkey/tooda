@@ -7,23 +7,24 @@ function loadBalance(){
   //     api: 'http://3.211.47.9/api/',
   //     auth: 'http://3.211.47.9/api/auth/'
   //   };
-  //   console.log(url);
+  //   console.log('url',url);
   //   return url;
   // } else {
-  //   let url = {
-  //     api: 'http://34.192.131.39/api/',
-  //     auth: 'http://34.192.131.39/api/auth/'
-  //   };
-  //   console.log(url);
-  //   return url;
+  let url = {
+    api: 'http://34.192.131.39/api/',
+    auth: 'http://34.192.131.39/api/auth/'
+  };
+  console.log('url',url);
+  // url = {
+  //   api: 'http://127.0.0.1:3001/api/',
+  //   auth: 'http://127.0.0.1:3001/api/auth/'
+  // };
+  return url;
   // }
   // for localhost
-  var url = {
-    api: 'http://127.0.0.1:3001/api/',
-    auth: 'http://127.0.0.1:3001/api/auth/'
-  };
-  console.log(url)
-  return url;
+  
+  // console.log(url)
+  // return url;
 }
 
 // All api routes are defined here centrally for ease of use.
@@ -33,6 +34,7 @@ export default {
   getListItems: (userId,listId) => axios.get(loadBalance().api + `getListItems/${userId}/${listId}`),
   addListItem: data => axios.post(loadBalance().api + 'addListItem', data),
   sendSMS: data => axios.post(loadBalance().api + 'sendSMS', data),
+  sendEmail: data => axios.post(loadBalance().api + 'sendEmail', data),
   deleteListItem: (listId, itemId) => axios.delete(loadBalance().api + `deleteListItem/${listId}/${itemId}`),
   updateListItem: (listId, itemId, data) => axios.put(loadBalance().api + `updateListItem/${listId}/${itemId}`, data),
   updateListItemOrder: (listId, newItemOrder) => axios.put(loadBalance().api + `updateListItemOrder/${listId}`, newItemOrder),

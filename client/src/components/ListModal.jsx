@@ -31,7 +31,7 @@ class ListModal extends Component {
             title
         })
         .then(res => {
-            console.log(res);
+            // console.log(res);
             _this.props.closeListModal();
             _this.props.getAllUserLists();
         }).catch(err => {

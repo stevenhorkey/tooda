@@ -17,42 +17,42 @@ class List extends Component {
     }
 
     sortListItems = (itemOrder, items) => {
-        console.log('sortListItems')
+        // console.log('sortListItems')
 
         let sortedItems = [];
         // let items = this.props.list.ListItems;
         let desiredOrder = itemOrder.split(',').filter(e => e);
-        console.log(items, desiredOrder,this.props.list);
+        // console.log(items, desiredOrder,this.props.list);
 
         desiredOrder.forEach(id => {
-            console.log(id);
+            // console.log(id);
             items.forEach(item => {
-                console.log(item);
+                // console.log(item);
                 if(item.id === parseInt(id)) sortedItems.push(item);
                 // else if(item.id === parseInt(id) && item.completed) sortedCompletedItems.push(item);
             });
         });
 
-        console.log(sortedItems);
+        // console.log(sortedItems);
 
         this.setState({
             listItems: sortedItems,
             itemOrder: desiredOrder
         });
 
-        console.log(this.state);
+        // console.log(this.state);
 
 
     }
 
     updateAllListItems = () => {
-        console.log('updateAllListItems')
+        // console.log('updateAllListItems')
 
         let userId = this.props.user.id;
         let listId = this.props.list.id;
         API.getListItems(userId,listId)
         .then(res => {
-            console.log('updated whole list',res.data);
+            // console.log('updated whole list',res.data);
             // this.setState({
             //     listItems: res.data
             // });
@@ -65,7 +65,7 @@ class List extends Component {
     }
 
     componentDidMount = () => {
-        console.log('componentDidMount')
+        // console.log('componentDidMount')
         // this.updateAllListItems();
         this.sortListItems(this.props.list.itemOrder, this.props.list.ListItems);
 
@@ -77,14 +77,14 @@ class List extends Component {
     }
 
     handleChange = event => {
-        console.log('handleChange')
+        // console.log('handleChange')
         const name = event.target.name;
         const value = event.target.value;
         this.setState({[name]:value});
     };
 
     handleItemChange = (event,itemId) => {
-        console.log('handleItemChange')
+        // console.log('handleItemChange')
 
         this.setState({
             listItems: this.state.listItems.map(item =>
@@ -96,9 +96,9 @@ class List extends Component {
     };
 
     updateListItemValue = (itemId, newValue) => {
-        console.log('updateListItemValue');
+        // console.log('updateListItemValue');
         API.updateListItemValue(this.props.list.id, itemId, {newValue}).then(res => {
-            console.log(res);
+            // console.log(res);
             this.props.getAllUserLists();
             // this.updateAllListItems();
             this.sortListItems(this.props.list.itemOrder,this.updateAllListItems());
@@ -110,8 +110,8 @@ class List extends Component {
 
     addListItem = e => {
         e.preventDefault();
-        console.log('addListItem')
-        console.log(this.state.itemOrder);
+        // console.log('addListItem')
+        // console.log(this.state.itemOrder);
 
 
         var item = this.state.itemInput;
@@ -125,8 +125,8 @@ class List extends Component {
             this.setState({
                 itemInput: "",
             })
-            console.log(res);
-            console.log(this.state);
+            // console.log(res);
+            // console.log(this.state);
         }).catch(err => {
             console.log(err);
         });
@@ -135,14 +135,14 @@ class List extends Component {
     changeDateTimePicker = date => this.setState({ date })
 
     deleteListItem = itemId => {
-        console.log('deleteListItem',itemId)
+        // console.log('deleteListItem',itemId)
         API.deleteListItem(this.props.list.id,itemId)
         .then(res => {
-            console.log(res);
-            console.log(this.state.itemOrder.filter(id => {
-                console.log(id, itemId.toString());
-                return id !== itemId.toString();
-            }))
+            // console.log(res);
+            // console.log(this.state.itemOrder.filter(id => {
+            //     console.log(id, itemId.toString());
+            //     return id !== itemId.toString();
+            // }))
             this.setState({
                 listItems: this.state.listItems.filter(item => item.id !== itemId),
                 itemOrder: this.state.itemOrder.filter(id => id !== itemId.toString())
@@ -154,10 +154,10 @@ class List extends Component {
     }
 
     updateListItem = (itemId, status) => {
-        console.log('updateListItem',itemId)
+        // console.log('updateListItem',itemId)
         API.updateListItem(this.props.list.id, itemId, {'completed':status})
         .then(res => {
-            console.log(res);
+            // console.log(res);
             let revisedItems = this.state.listItems.map(item =>
                 item.id === itemId
                   ? { ...item, completed: status }
@@ -166,7 +166,7 @@ class List extends Component {
             this.setState({
                 
             });
-            console.log(revisedItems);
+            // console.log(revisedItems);
             this.setState({
                 listItems: revisedItems
             });
@@ -177,7 +177,7 @@ class List extends Component {
     }
 
     arraymove = (arr, fromIndex, toIndex) => {
-        console.log('arraymove')
+        // console.log('arraymove')
         var element = arr[fromIndex];
         arr.splice(fromIndex, 1);
         arr.splice(toIndex, 0, element);
@@ -185,7 +185,7 @@ class List extends Component {
     }
 
     closeTextModal = () => {
-        console.log('closeTextModal')
+        // console.log('closeTextModal')
         this.setState({
             showTextModal: false,
             modalData: {}
@@ -193,7 +193,7 @@ class List extends Component {
     }
 
     triggerTextModal = item => {
-        console.log('triggerTextModal')
+        // console.log('triggerTextModal')
         this.setState({
             modalData: item,
             showTextModal: true
@@ -201,7 +201,7 @@ class List extends Component {
     }
 
     onDragEnd = result => {
-        console.log('onDragEnd')
+        // console.log('onDragEnd')
 
         const { destination, source, draggableId } = result;
         if (!destination) { return }
@@ -209,19 +209,19 @@ class List extends Component {
 
         let newItemOrderArr = this.arraymove(this.state.itemOrder, source.index, destination.index);
         let newItemOrder = newItemOrderArr.join(',') + ',';
-        console.log(newItemOrderArr);
-        console.log(newItemOrder);
+        // console.log(newItemOrderArr);
+        // console.log(newItemOrder);
 
         API.updateListItemOrder(this.props.list.id,{newItemOrder})
         .then(res => {
-            console.log(res);
+            // console.log(res);
             // this.sortListItems(newItemOrder);
             // this.props.getAllUserLists();
             // this.setState({
             //     itemOrder: newItemOrderArr
             // });
             this.sortListItems(newItemOrder, this.state.listItems);
-            console.log(this.state);
+            // console.log(this.state);
         }).catch(err => {
             console.log(err);
         });
@@ -229,14 +229,14 @@ class List extends Component {
     }
 
     promptDeleteList = () => {
-        console.log('promptDeleteList')
+        // console.log('promptDeleteList')
 
         let proceedDelete = window.confirm(`You are about to delete the list: '${this.props.list.title}'. This cannot be undone.`);
 
         if(proceedDelete) {
             API.deleteList(this.props.list.id)
             .then(res => {
-                console.log(res);
+                // console.log(res);
                 this.props.getAllUserLists();
             }).catch(err => {
                 console.log(err);
@@ -250,7 +250,7 @@ class List extends Component {
 
         // let listItems = this.props.list.ListItems;
         let listItems = this.state.listItems;
-        console.log('rendering items', this.state)
+        // console.log('rendering items', this.state)
 
         return (
             <div className="list-container">
@@ -326,7 +326,7 @@ class List extends Component {
                         </div>
                 
                 {/* Modal */}
-                {this.state.showTextModal ? <TextModal data={this.state.modalData} showTextModal={this.state.showTextModal} closeTextModal={this.closeTextModal} /> : null}
+                {this.state.showTextModal ? <TextModal user={this.props.user} data={this.state.modalData} showTextModal={this.state.showTextModal} closeTextModal={this.closeTextModal} /> : null}
                 
             </div>
         );

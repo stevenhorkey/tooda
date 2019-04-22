@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var db = require('../Models');
 var passport = require('passport');
+const nodemailer = require("nodemailer");
 require('../config/passport')(passport);
 var bcrypt = require('bcrypt-nodejs');
 const Op = require('sequelize').Op;
@@ -157,12 +158,14 @@ router.post('/sendSMS', passport.authenticate('jwt', {
 }), function(req, res) {
     if (getToken(req.headers)) {
 
-
+        user = JSON.parse(req.headers.user);
+        userId = user.id;
         let currDateTime = new Date().toISOString().slice(0, 16);
         let requestedDateTime = req.body.date.slice(0, 16);
 
 
         let data = {
+            'userId': userId,
             'message': req.body.message,
             'sendTime': req.body.sendTime,
             'sendDate': req.body.sendDate
@@ -184,6 +187,45 @@ router.post('/sendSMS', passport.authenticate('jwt', {
         msg: 'Unauthorized.'
     });
 
+});
+
+
+// Send Email
+router.post('/sendEmail', function(req, res) {
+
+    console.log('sendEmail',req);
+    
+    // async..await is not allowed in global scope, must use a wrapper
+    async function main(){
+
+        let transporter = nodemailer.createTransport({
+            host: 'smtp.gmail.com',
+            port: 587,
+            secure: false,
+            requireTLS: true,
+            auth: {
+                user: process.env.GMAIL_USER,
+                pass: process.env.GMAIL_PASS
+            }
+        });
+        
+        let mailOptions = {
+            from: 'stevedevtech@gmail.com',
+            to: req.body.sendTo,
+            subject: req.body.subject,
+            text: req.body.message
+        };
+        
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                return console.log(error.message);
+            }
+            console.log('success');
+        });
+    }
+
+    main().catch(console.error);
+    
 });
 
 // PUT===========================================================

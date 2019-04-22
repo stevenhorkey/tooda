@@ -191,6 +191,12 @@ input {
               color: #88a4ac;
               cursor: pointer; }
 
+.auth-form-titles {
+  cursor: pointer; }
+
+label {
+  margin-bottom: 3px; }
+
 .form-group label {
   display: block; }
 

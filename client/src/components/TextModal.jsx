@@ -15,7 +15,8 @@ class TextModal extends Component {
         this.setState({
             message: this.props.data.value
         });
-        console.log(this.props.data)
+        // console.log(this.props.data)
+        console.log('launched text modal')
     }
 
     handleChange = event => {
@@ -41,7 +42,35 @@ class TextModal extends Component {
             sendDate
         })
         .then(res => {
-            console.log(res);
+            // console.log(res);
+            _this.props.closeTextModal();
+        }).catch(err => {
+            console.log(err);
+        });
+    }
+
+    sendEmailReminder = e => {
+        e.preventDefault();
+        let {message, date} = this.state;
+        let sendTime = date.toString().slice(16,21);
+        let sendDate = date.toISOString().slice(0, 10);
+        let subject = 'reList Reminder Notification'
+        let sendTo = this.props.user.email;
+        let _this = this;
+
+        let data = {
+            message,
+            subject,
+            sendTo,
+            date,
+            sendTime,
+            sendDate
+        };
+
+        // console.log('should send email',data)
+        API.sendEmail(data)
+        .then(res => {
+            // console.log(res);
             _this.props.closeTextModal();
         }).catch(err => {
             console.log(err);
@@ -55,7 +84,7 @@ class TextModal extends Component {
                 <Modal.Header>
                     <Modal.Title>Set A Text Reminder</Modal.Title>
                 </Modal.Header>
-                <form onSubmit={this.sendTextReminder}>
+                <form onSubmit={this.sendEmailReminder}>
                     <Modal.Body>
                         <div className="container">
                             <div className="row">

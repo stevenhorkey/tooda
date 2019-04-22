@@ -23,7 +23,7 @@ class AuthPage extends Component {
   componentDidMount = () => {};
 
   changeForm = (form, event) => {
-    console.log(form, event.currentTarget)
+    // console.log(form, event.currentTarget)
     this.setState({
       whichForm: form
     })
@@ -61,7 +61,7 @@ class AuthPage extends Component {
           success: res.data.success
         })
         window.location.reload(); 
-        console.log(res);
+        // console.log(res);
       })
       .catch(err => {
         console.log(err);
@@ -89,7 +89,7 @@ class AuthPage extends Component {
           success: res.data.success
         });
 
-        console.log(res,this.state);
+        // console.log(res,this.state);
         
       })
       .catch(err => {
@@ -104,13 +104,13 @@ class AuthPage extends Component {
       <Fragment>
           <div className="container">
               <div className="row align-items-center justify-content-center">
-                  <div className="bg-light col-md-4 col-sm-6 col-12 bg-trans-dark py-4 text-left px-5" id="login-container">
+                  <div className="bg-light col-md-4 col-sm-6 col-12 bg-trans-dark py-4 text-left px-5 box-shadow" id="login-container">
                     <div>
                     <div className="row">
-                      <h3 className="" onClick={(event) => this.changeForm('login', event)}>Login</h3> 
-                      <h3 className="ml-auto text-muted" onClick={(event) => this.changeForm('signup', event)}>Signup</h3>
+                      <h3 className="auth-form-titles" onClick={(event) => this.changeForm('login', event)}>Login</h3> 
+                      <h3 className="ml-auto auth-form-titles" onClick={(event) => this.changeForm('signup', event)}>Signup</h3>
                     </div>
-                      <form className="row">
+                      <form className="row mt-3">
                         {(this.state.whichForm === 'login') ? 
                           <Login 
                             stateData={this.state}

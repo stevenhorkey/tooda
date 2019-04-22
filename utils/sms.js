@@ -16,6 +16,7 @@ const sms = {
         },1000 * 60 * minutes);
     },
     sendText: function(data){
+        // db.Users
         this.twilioClient.messages.create(
             {
               to: '+15206129381',
