@@ -84,7 +84,7 @@ class TextModal extends Component {
                 <Modal.Header>
                     <Modal.Title>Set A Text Reminder</Modal.Title>
                 </Modal.Header>
-                <form onSubmit={this.sendEmailReminder}>
+                <form>
                     <Modal.Body>
                         <div className="container">
                             <div className="row">
@@ -108,8 +108,11 @@ class TextModal extends Component {
                         <Button variant="secondary" onClick={this.props.closeTextModal}>
                         Cancel
                         </Button>
-                        <Button variant="primary" type="submit">
-                        Set Reminder
+                        <Button variant="primary" type="submit" onClick={this.sendTextReminder}>
+                        Set Text Reminder
+                        </Button>
+                        <Button variant="primary" type="submit" onClick={this.sendEmailReminder}>
+                        Set Email Reminder
                         </Button>
                     </Modal.Footer>
                 </form>
