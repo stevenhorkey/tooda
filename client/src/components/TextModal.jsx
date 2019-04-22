@@ -42,7 +42,7 @@ class TextModal extends Component {
             sendDate
         })
         .then(res => {
-            // console.log(res);
+            console.log(res);
             _this.props.closeTextModal();
         }).catch(err => {
             console.log(err);
@@ -70,7 +70,7 @@ class TextModal extends Component {
         // console.log('should send email',data)
         API.sendEmail(data)
         .then(res => {
-            // console.log(res);
+            console.log(res);
             _this.props.closeTextModal();
         }).catch(err => {
             console.log(err);

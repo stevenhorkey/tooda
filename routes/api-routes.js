@@ -219,8 +219,10 @@ router.post('/sendEmail', function(req, res) {
         transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
                 return console.log(error.message);
+                res.json('error');
             }
             console.log('success');
+            res.json('success');
         });
     }
 

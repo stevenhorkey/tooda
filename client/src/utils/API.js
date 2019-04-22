@@ -14,7 +14,7 @@ function loadBalance(){
     api: 'http://34.192.131.39/api/',
     auth: 'http://34.192.131.39/api/auth/'
   };
-  console.log('url',url);
+  // console.log('url',url);
   // url = {
   //   api: 'http://127.0.0.1:3001/api/',
   //   auth: 'http://127.0.0.1:3001/api/auth/'
