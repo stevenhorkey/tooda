@@ -4,19 +4,19 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
 var PORT = process.env.PORT || "3001";
+var cors = require('cors')
 var apiRoutes = require('./routes/api-routes');
-var app = express();
+var app = express().use('*', cors());;
 var auth = require('./routes/auth');
 var sms = require('./utils/sms');
-var cors = require('cors')
 require('dotenv').config()
 
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Methods", "*");
-  res.header("Access-Control-Allow-Headers", "*");
-  next();
-});
+// app.use(function(req, res, next) {
+//   res.header("Access-Control-Allow-Origin", "*");
+//   res.header("Access-Control-Allow-Methods", "*");
+//   res.header("Access-Control-Allow-Headers", "*");
+//   next();
+// });
 
 app.use(cors())
 
