@@ -11,8 +11,8 @@ function loadBalance(){
   //   return url;
   // } else {
   let url = {
-    api: 'http://34.192.131.39/api/',
-    auth: 'http://34.192.131.39/api/auth/'
+    api: '/api/',
+    auth: '/api/auth/'
   };
   // console.log('url',url);
   // url = {
