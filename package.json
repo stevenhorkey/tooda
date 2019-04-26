@@ -32,7 +32,7 @@
     "server": "nodemon ./bin/www",
     "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
     "install": "cd client && npm install",
-    "build": "cd client && react-scripts build"
+    "build": "cd client && npm run build"
   },
   "devDependencies": {
     "concurrently": "^3.5.1"
