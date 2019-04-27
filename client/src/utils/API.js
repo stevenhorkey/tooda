@@ -11,8 +11,8 @@ function loadBalance(){
   //   return url;
   // } else {
   let url = {
-    api: '/api/',
-    auth: '/api/auth/'
+    api: 'https://sessionsbysteven.herokuapp.com/api/',
+    auth: 'https://sessionsbysteven.herokuapp.com/api/auth/'
   };
   // console.log('url',url);
   // url = {
