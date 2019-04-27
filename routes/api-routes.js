@@ -8,7 +8,8 @@ var bcrypt = require('bcrypt-nodejs');
 const Op = require('sequelize').Op;
 var Sequelize = require('sequelize');
 var sms = require('../utils/sms');
-require('dotenv').config()
+require('dotenv').config();
+
 
 // For some reason, creating this instance is required to run a custom query.
 var sequelize = new Sequelize(process.env.MYSQL_DB, process.env.MYSQL_USER, process.env.MYSQL_PASSWORD, {
@@ -189,44 +190,115 @@ router.post('/sendSMS', passport.authenticate('jwt', {
 
 });
 
+function sendEmail(req) {
+    console.log('sending email');
+    
+    // using SendGrid's v3 Node.js Library
+    // https://github.com/sendgrid/sendgrid-nodejs
+    const sgMail = require('@sendgrid/mail');
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+            
+    const msg = {
+        to: req.body.sendTo,
+        from: 'music@stevenhorkey.com',
+        subject: req.body.subject,
+        text: req.body.message,
+        html: '<strong>and easy to do anywhere, even with Node.js</strong>',
+    };
+
+    sgMail
+    .send(msg)
+    .then(() => {
+        //Celebrate
+        console.log('did it really though');
+        // res.json('success')
+      })
+      .catch(error => {
+    
+        //Log friendly error
+        console.error(error.toString());
+    
+        //Extract error msg
+        const {message, code, response} = error;
+    
+        //Extract response msg
+        const {headers, body} = response;
+      });
+}
+
+
 
 // Send Email
 router.post('/sendEmail', function(req, res) {
 
-    console.log('sendEmail',req);
+    // console.log('sendEmail',req);
+
+    // using SendGrid's v3 Node.js Library
+    // https://github.com/sendgrid/sendgrid-nodejs
+    const sgMail = require('@sendgrid/mail');
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+            
+    const msg = {
+        to: req.body.sendTo,
+        from: 'music@stevenhorkey.com',
+        subject: req.body.subject,
+        text: req.body.message,
+        html: req.body.message
+    };
+
+    sgMail
+    .send(msg)
+    .then(() => {
+        //Celebrate
+        console.log('email sent');
+        res.json('success')
+      })
+      .catch(error => {
+        res.json('error');
+        //Log friendly error
+        console.error(error.toString());
+    
+        //Extract error msg
+        const {message, code, response} = error;
+    
+        //Extract response msg
+        const {headers, body} = response;
+      });
     
     // async..await is not allowed in global scope, must use a wrapper
-    async function main(){
+    // async function main(){
 
-        let transporter = nodemailer.createTransport({
-            host: 'smtp.gmail.com',
-            port: 587,
-            secure: false,
-            requireTLS: true,
-            auth: {
-                user: process.env.GMAIL_USER,
-                pass: process.env.GMAIL_PASS
-            }
-        });
+    //     let transporter = nodemailer.createTransport({
+    //         host: 'smtp.gmail.com',
+    //         port: 587,
+    //         secure: false,
+    //         requireTLS: true,
+    //         auth: {
+    //             user: process.env.GMAIL_USER,
+    //             pass: process.env.GMAIL_PASS
+    //         }
+    //     });
         
-        let mailOptions = {
-            from: 'stevedevtech@gmail.com',
-            to: req.body.sendTo,
-            subject: req.body.subject,
-            text: req.body.message
-        };
+    //     let mailOptions = {
+    //         from: 'stevedevtech@gmail.com',
+    //         to: req.body.sendTo,
+    //         subject: req.body.subject,
+    //         text: req.body.message
+    //     };
         
-        transporter.sendMail(mailOptions, (error, info) => {
-            if (error) {
-                return console.log(error.message);
-                res.json('error');
-            }
-            console.log('success');
-            res.json('success');
-        });
-    }
+    //     transporter.sendMail(mailOptions, (error, info) => {
+    //         if (error) {
+    //             return console.log(error.message);
+    //             res.json('error');
+    //         }
+    //         console.log('success');
+    //         res.json('success');
+    //     });
+    // }
 
-    main().catch(console.error);
+    // main().catch(console.error);
+
+    
     
 });
 
