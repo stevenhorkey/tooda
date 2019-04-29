@@ -8,6 +8,7 @@ var bcrypt = require('bcrypt-nodejs');
 const Op = require('sequelize').Op;
 var Sequelize = require('sequelize');
 var sms = require('../utils/sms');
+var email = require('../utils/email');
 require('dotenv').config();
 
 
@@ -189,43 +190,6 @@ router.post('/sendSMS', passport.authenticate('jwt', {
     });
 
 });
-
-function sendEmail(req) {
-    console.log('sending email');
-    
-    // using SendGrid's v3 Node.js Library
-    // https://github.com/sendgrid/sendgrid-nodejs
-    const sgMail = require('@sendgrid/mail');
-    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-            
-    const msg = {
-        to: req.body.sendTo,
-        from: 'music@stevenhorkey.com',
-        subject: req.body.subject,
-        text: req.body.message,
-        html: '<strong>and easy to do anywhere, even with Node.js</strong>',
-    };
-
-    sgMail
-    .send(msg)
-    .then(() => {
-        //Celebrate
-        console.log('did it really though');
-        // res.json('success')
-      })
-      .catch(error => {
-    
-        //Log friendly error
-        console.error(error.toString());
-    
-        //Extract error msg
-        const {message, code, response} = error;
-    
-        //Extract response msg
-        const {headers, body} = response;
-      });
-}
-
 
 
 // Send Email

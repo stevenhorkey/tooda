@@ -1,9 +1,7 @@
 var db = require('../Models');
 require('dotenv').config()
+const nodemailer = require("nodemailer");
 
-// Twilio Credentials
-const accountSid = process.env.TWILIO_SID;
-const authToken = process.env.TWILIO_AUTH_TOKEN;
 
 // require the Twilio module and create a REST client
 const sms = {
